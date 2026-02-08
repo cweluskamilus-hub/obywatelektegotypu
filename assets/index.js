@@ -1,19 +1,22 @@
-// ===== ULTIMATE TOKEN SYSTEM =====
+import { db, doc, getDoc, updateDoc } from "../firebase.js";
 
 const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
 
-// block if no token
 if(!token){
-    document.body.innerHTML = "Access denied (no token)";
-    throw new Error("No token");
+   document.body.innerHTML = "Invalid access";
+   throw new Error("No token");
 }
 
-// block if already used
-if(localStorage.getItem("used_token_" + token)){
-    document.body.innerHTML = "Generator link expired.";
-    throw new Error("Token used");
+// check token in database
+const ref = doc(db, "tokens", token);
+const snap = await getDoc(ref);
+
+if(!snap.exists() || snap.data().used){
+   document.body.innerHTML = "Generator expired";
+   throw new Error("Invalid token");
 }
+
 
 var selector = document.querySelector(".selector_box");
 selector.addEventListener('click', () => {
@@ -188,5 +191,6 @@ document.querySelectorAll(".input").forEach((input) => {
         localStorage.setItem(input.id, input.value);
     });
 });
+
 
 
