@@ -1,20 +1,28 @@
-import { db, doc, getDoc, updateDoc } from "../firebase.js";
+import { db } from "firebase.js";
+import { collection, query, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const params = new URLSearchParams(window.location.search);
-const token = params.get("token");
+const tokenValue = params.get("token");
 
-if(!token){
-   document.body.innerHTML = "Invalid access";
-   throw new Error("No token");
+if(!tokenValue){
+   document.body.innerHTML="Invalid access";
+   throw "";
 }
 
-// check token in database
-const ref = doc(db, "tokens", token);
-const snap = await getDoc(ref);
+const q = query(collection(db,"tokens"), where("token","==",tokenValue));
+const snapshot = await getDocs(q);
 
-if(!snap.exists() || snap.data().used){
-   document.body.innerHTML = "Generator expired";
-   throw new Error("Invalid token");
+if(snapshot.empty){
+   document.body.innerHTML="Token invalid";
+   throw "";
+}
+
+const tokenDoc = snapshot.docs[0];
+const data = tokenDoc.data();
+
+if(data.usedCount >= data.maxUses){
+   document.body.innerHTML="Token expired";
+   throw "";
 }
 
 
@@ -170,7 +178,9 @@ function forwardToId(params){
 // lock token forever
 localStorage.setItem("used_token_" + token, "true");
 
-    await updateDoc(ref, { used: true });
+   await updateDoc(tokenDoc.ref,{
+   usedCount: data.usedCount + 1
+});
    location.href = "id.html?" + params
 
 }
@@ -192,6 +202,7 @@ document.querySelectorAll(".input").forEach((input) => {
         localStorage.setItem(input.id, input.value);
     });
 });
+
 
 
 
