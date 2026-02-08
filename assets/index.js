@@ -170,7 +170,8 @@ function forwardToId(params){
 // lock token forever
 localStorage.setItem("used_token_" + token, "true");
 
-    location.href = "id.html?" + params
+    await updateDoc(ref, { used: true });
+   location.href = "id.html?" + params
 
 }
 
@@ -191,6 +192,7 @@ document.querySelectorAll(".input").forEach((input) => {
         localStorage.setItem(input.id, input.value);
     });
 });
+
 
 
 
