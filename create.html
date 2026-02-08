@@ -1,0 +1,16 @@
+<script>
+const params = new URLSearchParams(window.location.search);
+const token = params.get("gen");
+
+const usedToken = localStorage.getItem("GENERATOR_LOCK");
+
+// no token → block
+if(!token){
+    document.body.innerHTML = "Access denied.";
+}
+
+// already used → block
+if(usedToken === token){
+    document.body.innerHTML = "This generator link has expired.";
+}
+</script>
