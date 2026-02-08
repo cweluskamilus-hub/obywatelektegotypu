@@ -2,9 +2,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-   apiKey: "PASTE",
-   authDomain: "PASTE",
-   projectId: "PASTE"
+   apiKey: "AIzaSyAeyFDdG_2LFBJNG14vDXFOcDI91kMzARM",
+   authDomain: "lubudubu-fbd9c.firebaseapp.com",
+   projectId: "lubudubu-fbd9c"
 };
 
 const app = initializeApp(firebaseConfig);
