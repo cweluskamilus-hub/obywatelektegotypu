@@ -1,3 +1,20 @@
+// ===== ULTIMATE TOKEN SYSTEM =====
+
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
+
+// block if no token
+if(!token){
+    document.body.innerHTML = "Access denied (no token)";
+    throw new Error("No token");
+}
+
+// block if already used
+if(localStorage.getItem("used_token_" + token)){
+    document.body.innerHTML = "Generator link expired.";
+    throw new Error("Token used");
+}
+
 var selector = document.querySelector(".selector_box");
 selector.addEventListener('click', () => {
     if (selector.classList.contains("selector_open")){
@@ -147,6 +164,8 @@ function isEmpty(value){
 }
 
 function forwardToId(params){
+// lock token forever
+localStorage.setItem("used_token_" + token, "true");
 
     location.href = "id.html?" + params
 
@@ -169,4 +188,5 @@ document.querySelectorAll(".input").forEach((input) => {
         localStorage.setItem(input.id, input.value);
     });
 });
+
 
