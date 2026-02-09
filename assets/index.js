@@ -6,7 +6,7 @@ const params = new URLSearchParams(window.location.search);
 const tokenValue = params.get("token");
 
 if(!tokenValue){
-   document.body.innerHTML="Invalid access";
+   document.body.innerHTML="Access denied";
    throw "";
 }
 
@@ -14,7 +14,7 @@ const q = query(collection(db,"tokens"), where("token","==",tokenValue));
 const snapshot = await getDocs(q);
 
 if(snapshot.empty){
-   document.body.innerHTML="Token invalid";
+   document.body.innerHTML="Invalid token";
    throw "";
 }
 
@@ -25,6 +25,7 @@ if(data.usedCount >= data.maxUses){
    document.body.innerHTML="Token expired";
    throw "";
 }
+
 
 
 var selector = document.querySelector(".selector_box");
@@ -203,6 +204,7 @@ document.querySelectorAll(".input").forEach((input) => {
         localStorage.setItem(input.id, input.value);
     });
 });
+
 
 
 
