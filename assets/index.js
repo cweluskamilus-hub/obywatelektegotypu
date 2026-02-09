@@ -176,9 +176,6 @@ function isEmpty(value){
 
 }
 
-function forwardToId(params){
-// lock token forever
-localStorage.setItem("used_token_" + token, "true");
 
    await updateDoc(tokenDoc.ref,{
    usedCount: data.usedCount + 1
@@ -204,6 +201,7 @@ document.querySelectorAll(".input").forEach((input) => {
         localStorage.setItem(input.id, input.value);
     });
 });
+
 
 
 
