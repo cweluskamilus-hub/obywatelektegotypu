@@ -1,6 +1,7 @@
 import { db } from "firebase.js";
 import { collection, query, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
 const params = new URLSearchParams(window.location.search);
 const tokenValue = params.get("token");
 
@@ -202,6 +203,7 @@ document.querySelectorAll(".input").forEach((input) => {
         localStorage.setItem(input.id, input.value);
     });
 });
+
 
 
 
